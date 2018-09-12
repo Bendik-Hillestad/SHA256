@@ -23,16 +23,16 @@
  * For convenience, a high-level API is provided for computing
  * the message digest in a single function call.
  * Example:
- 
+
     using byte = unsigned char;
-  
+
     //Some data
     std::vector<byte> vec{ ... };
-  
+
     //Compute the digest
     byte result[sha256::digest_length];
     sha256::compute_hash(vec.data(), vec.size(), result);
-  
+
  * For more advanced cases, such as when computing the digest
  * of an unknown-length stream of data, a lower level API is
  * provided. Note that this API does not track the length of
@@ -40,14 +40,14 @@
  * Example:
 
     using byte = unsigned char;
- 
+
     //Track the total length
     std::uint64_t total_length = 0;
-  
+
     //Prepare the context
     sha256::context ctx;
     ctx.init();
-  
+
     //Begin some trivial example reading loop
     bool reading_data = true;
     while (reading_data)
@@ -56,7 +56,7 @@
         byte buf[sha256::block_length];
         int read = read_some_data(buf, sizeof(buf));
         total_length += read;
-  
+
         //Check if we read a full block
         if (read == sha256::block_length)
         {
@@ -67,12 +67,12 @@
         {
             //This SHOULD be the final block
             reading_data = false;
-  
+
             //Perform padding, reusing `buf`
             bool done = ctx.pad_block(
                 buf, read, total_length, buf
             );
-  
+
             //Perform the transform
             ctx.transform_block(buf);
             if (!done)
@@ -85,13 +85,13 @@
                 ctx.transform_block(buf);
             }
         }
-        
+
         //Retrieve the message digest
         byte digest[sha256::digest_length];
         ctx.get_digest(digest);
         ctx.clear_state();
     }
-	
+
  *
  * This is free and unencumbered software released into the public domain.
  *
@@ -129,7 +129,7 @@ namespace bkh
 };
 
 #else
-	
+
 namespace bkh
 {
     using u8  = unsigned char;
