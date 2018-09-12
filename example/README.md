@@ -1,5 +1,4 @@
-# SHA-256
-## Compiling without the CRT
+# Compiling without the CRT
 
 This is a simple example that merely tests the correctness of the implementation, but it demonstrates that the code will compile fine without errors when compiling without the Visual C/C++ Runtime on Windows.
 
